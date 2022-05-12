@@ -1,0 +1,27 @@
+﻿@model Crud.Models.Funcionario
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="col-md4">
+    <form asp-action="Create">
+        <div class="form-group">
+            <label asp-for="Nome" class="control-label"></label>
+            <input asp-for="Nome" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="Matricula" class="control-label"></label>
+            <input asp-for="Matricula" class="form-control"/>
+        </div>
+        <div class="form-group">
+            <label asp-for="Setor" class="control-label"></label>
+            <input asp-for="Setor" class="form-control"/>
+        </div>
+        <div class="form-grup">
+            <input type="submit" value="Create" class="btn btn-default"/>
+        </div>
+    </form>
+</div>
+
