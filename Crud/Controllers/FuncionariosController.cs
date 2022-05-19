@@ -14,13 +14,13 @@ namespace Crud.Controllers
         }
 
         //Me traz uma lista de funcionarios
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var list = _funcionarioService.FindAll();
+            var list = await _funcionarioService.FindAllAsync();
             return View(list);
         }
         //Só me traz a tela de cadastro
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             return View();
         }
@@ -29,18 +29,18 @@ namespace Crud.Controllers
         //Esse create insere no banco atraves do verbo Post
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Funcionario funcionario)
+        public async Task<IActionResult> Create(Funcionario funcionario)
         {
-            _funcionarioService.Insert(funcionario);
+            await _funcionarioService.InsertAsync(funcionario);
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Delete(int? id)
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var obj = _funcionarioService.FindById(id.Value);
+            var obj = await _funcionarioService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return NotFound();
@@ -49,33 +49,33 @@ namespace Crud.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            _funcionarioService.Remove(id);
+            await _funcionarioService.RemoveAsync(id);
             return RedirectToAction(nameof(Index));
         }
-        public IActionResult Details(int? id)
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var obj = _funcionarioService.FindById(id.Value);
+            var obj = await _funcionarioService.FindByIdAsync(id.Value);
             if (obj == null)
             {
                 return NotFound();
             }
             return View(obj);
         }
-        
-        public IActionResult Edit(int? id)
+
+        public async Task<IActionResult> Edit(int? id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return NotFound();
             }
-            var obj = _funcionarioService.FindById(id.Value);
-            if(obj == null)
+            var obj = await _funcionarioService.FindByIdAsync(id.Value);
+            if (obj == null)
             {
                 return NotFound();
             }
@@ -83,13 +83,13 @@ namespace Crud.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id,Funcionario funcionario)
+        public async Task<IActionResult> Edit(int id, Funcionario funcionario)
         {
-            if(id != funcionario.Id)
+            if (id != funcionario.Id)
             {
                 return BadRequest();
             }
-            _funcionarioService.Update(funcionario);
+            await _funcionarioService.UpdateAsync(funcionario);
             return RedirectToAction(nameof(Index));
         }
     }

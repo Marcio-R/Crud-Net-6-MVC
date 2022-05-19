@@ -12,39 +12,40 @@ namespace Crud.Services
         {
             _context = context;
         }
-        public List<Funcionario> FindAll()
+        public  async Task<List<Funcionario>> FindAllAsync()
         {
-            return _context.Funcionario.ToList();
+            return await _context.Funcionario.ToListAsync();
 
         }
-        public void Insert(Funcionario obj)
+        public async Task InsertAsync(Funcionario obj)
         {
             _context.Add(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
-        public Funcionario FindById(int id)
+        public async Task<Funcionario> FindByIdAsync(int id)
         {
-            return _context.Funcionario.FirstOrDefault(x => x.Id == id);
+            return await _context.Funcionario.FirstOrDefaultAsync(x => x.Id == id);
         }
-        public void Remove(int id)
+        public async Task RemoveAsync(int id)
         {
-            var obj = _context.Funcionario.Find(id);
+            var obj = await _context.Funcionario.FindAsync(id);
             _context.Funcionario.Remove(obj);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         //Execeções são capituradas pelo serviço e relançadas na formar de execeções para o serviço
         //para controller
-        public void Update(Funcionario obj)
+        public async Task UpdateAsync(Funcionario obj)
         {
-            if (!_context.Funcionario.Any(x => x.Id == obj.Id))
+            bool hasAny = await _context.Funcionario.AnyAsync(x => x.Id == obj.Id);
+            if (!hasAny)
             {
                 throw new Exception();
             }
             try
             {
                 _context.Update(obj);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException e)
             {
